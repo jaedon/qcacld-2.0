@@ -70,6 +70,9 @@
 #include <linux/scatterlist.h>
 #include <linux/completion.h>
 #include <linux/ieee80211.h>
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,12,0))
+#include <crypto/internal/cipher.h>
+#endif
 #include <crypto/hash.h>
 #include <crypto/aes.h>
 #include <wcnss_api.h>
@@ -1094,3 +1097,7 @@ int vos_status_to_os_return(VOS_STATUS status)
 		return -EPERM;
 	}
 }
+
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,12,0))
+MODULE_IMPORT_NS(CRYPTO_INTERNAL);
+#endif

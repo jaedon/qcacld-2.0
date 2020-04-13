@@ -157,10 +157,17 @@ static inline int vos_wlan_pm_control(bool vote)
 static inline void vos_lock_pm_sem(void) { return; }
 static inline void vos_release_pm_sem(void) { return; }
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
+static inline void vos_get_boottime_ts(struct timespec64 *ts)
+{
+	ktime_get_ts64(ts);
+}
+#else
 static inline void vos_get_boottime_ts(struct timespec *ts)
 {
 	ktime_get_ts(ts);
 }
+#endif
 
 static inline void *vos_get_virt_ramdump_mem(struct device *dev,
 						unsigned long *size)
@@ -182,6 +189,15 @@ static inline int vos_set_cpus_allowed_ptr(struct task_struct *task, ulong cpu)
 }
 #endif
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,7,0))
+enum {
+       PM_QOS_RESERVED = 0,
+       PM_QOS_CPU_DMA_LATENCY,
+
+       /* insert new class ID */
+       PM_QOS_NUM_CLASSES,
+};
+#endif
 static inline void vos_device_self_recovery(struct device *dev) { return; }
 static inline void vos_request_pm_qos_type(int latency_type, u32 qos_val)
 {
@@ -373,7 +389,11 @@ static inline int vos_wlan_get_dfs_nol(void *info, u16 info_len)
 	return cnss_wlan_get_dfs_nol(info, info_len);
 }
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
+static inline void vos_get_boottime_ts(struct timespec64 *ts)
+#else
 static inline void vos_get_boottime_ts(struct timespec *ts)
+#endif
 {
         cnss_get_boottime(ts);
 }

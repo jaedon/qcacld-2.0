@@ -67,6 +67,13 @@
 #include <linux/uaccess.h> /* for copy_to_user */
 #endif
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0)
+#ifdef CONFIG_ARM64
+#define get_fs()	((mm_segment_t) { 0 })
+#define set_fs(val)	do {} while (0)
+#endif
+#endif
+
 #ifdef FEATURE_SECURE_FIRMWARE
 static struct hash_fw fw_hash;
 #endif
