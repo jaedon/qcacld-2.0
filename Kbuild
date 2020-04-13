@@ -195,7 +195,7 @@ CONFIG_WLAN_FEATURE_SAE := y
 # Feature flags which are not (currently) configurable via Kconfig
 
 #Whether to build debug version
-BUILD_DEBUG_VERSION := 1
+BUILD_DEBUG_VERSION := 0
 
 #Enable this flag to build driver in diag version
 BUILD_DIAG_VERSION := 1
@@ -984,7 +984,7 @@ WDI_INC :=	$(WDI_CP_INC) \
 
 WCNSS_INC :=	-I$(WLAN_ROOT)/wcnss/inc
 
-LINUX_INC :=	-Iinclude/linux
+LINUX_INC :=	-I$(srctree)/include/linux
 
 INCS :=		$(HDD_INC) \
 		$(EPPING_INC) \
@@ -1060,7 +1060,6 @@ CDEFINES :=	-DANI_LITTLE_BYTE_ENDIAN \
 		-DWLAN_PERF \
 		-DPTT_SOCK_SVC_ENABLE \
 		-Wall\
-		-Werror\
 		-D__linux__ \
 		-DHAL_SELF_STA_PER_BSS=1 \
 		-DWLAN_FEATURE_VOWIFI_11R \

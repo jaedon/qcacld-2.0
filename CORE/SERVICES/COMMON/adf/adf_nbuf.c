@@ -2446,6 +2446,10 @@ uint16_t adf_nbuf_construct_radiotap(
  *
  * Return: none
  */
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
+#define FIELD_SIZEOF(t, f) (sizeof(((t*)0)->f))
+#endif
+
 void
 __adf_nbuf_validate_skb_cb(void)
 {
